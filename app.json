@@ -2,6 +2,7 @@
   "expo": {
     "name": "crypto",
     "slug": "crypto",
+    "scheme": "crypto",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
