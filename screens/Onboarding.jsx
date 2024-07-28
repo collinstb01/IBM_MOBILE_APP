@@ -1,6 +1,7 @@
 import {
   Dimensions,
   Image,
+  Pressable,
   StatusBar,
   StyleSheet,
   Text,
@@ -45,33 +46,47 @@ const Onboarding = () => {
     {
       text1: "Spend your crypto",
       text2: "your way",
-      desc: "Fund your sports betting wallet, Buy shopping vouchers,airtime,data,and enjoy cashback rewards",
+      desc: "Buy shopping vouchers,airtime,data,and enjoy cashback rewards",
       image: "./assets/some.png",
     },
   ];
   return (
-    <View style={{ flex: 1 }}>
-      <View style={styles.imagecontainer}>
-        <Image style={styles.image} source={require("../assets/some.png")} />
-      </View>
-      <View style={{ justifyContent: "center", alignItems: "center" }}>
-        <Text style={styles.title1}>Build your</Text>
-        <Text style={styles.title2}>{arraydata[activeScreen].text2}</Text>
-        <Text style={styles.desc}>{arraydata[activeScreen].desc}</Text>
-      </View>
-      <View style={styles.activeboxes}>
-        <View
-          style={[activeScreen == 0 ? styles.activebox : styles.inactivebox]}
-        ></View>
-        <View
-          style={[activeScreen == 1 ? styles.activebox : styles.inactivebox]}
-        ></View>
-        <View
-          style={[activeScreen == 2 ? styles.activebox : styles.inactivebox]}
-        ></View>
+    <View style={{ flex: 1, backgroundColor: "#e00000" }}>
+      <View style={styles.container}>
+        <View style={styles.imagecontainer}>
+          <Image style={styles.image} source={require("../assets/some.png")} />
+        </View>
+        <View style={{ justifyContent: "center", alignItems: "center" }}>
+          <Text style={styles.title1}>Build your</Text>
+          <Text style={styles.title2}>{arraydata[activeScreen].text2}</Text>
+          <Text style={styles.desc}>{arraydata[activeScreen].desc}</Text>
+        </View>
+        <View style={styles.activeboxes}>
+          <Pressable onPress={() => setActiveScreen(0)}>
+            <View
+              style={[
+                activeScreen == 0 ? styles.activebox : styles.inactivebox,
+              ]}
+            ></View>
+          </Pressable>
+          <Pressable onPress={() => setActiveScreen(1)}>
+            <View
+              style={[
+                activeScreen == 1 ? styles.activebox : styles.inactivebox,
+              ]}
+            ></View>
+          </Pressable>
+          <Pressable onPress={() => setActiveScreen(2)}>
+            <View
+              style={[
+                activeScreen == 2 ? styles.activebox : styles.inactivebox,
+              ]}
+            ></View>
+          </Pressable>
+        </View>
       </View>
       <View style={[{}, styles.buttons]}>
-        <View tyle={{ Top: 25 }}>
+        <View tyle={{}}>
           <Button text={"Get started"} func={handleGetStarted} />
         </View>
         <View style={{ marginTop: 25 }}>
@@ -85,6 +100,13 @@ const Onboarding = () => {
 export default Onboarding;
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "white",
+    // flex: 1,
+    height: Dimensions.get("window").height - 250,
+    borderBottomEndRadius: 170,
+    borderBottomStartRadius: 210,
+  },
   activebox: {
     backgroundColor: "grey",
     height: 12,
@@ -110,11 +132,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   buttons: {
-    marginTop: 50,
-    backgroundColor: "#e00000",
+    // marginTop: 50,
     flex: 1,
     paddingTop: 40,
     alignItems: "center",
+    zIndex: 20,
   },
   desc: {
     width: Dimensions.get("window").width - 100,

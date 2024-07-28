@@ -1,5 +1,4 @@
 import {
-  Image,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -9,14 +8,36 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import Cryptos from "../../components/Cryptos";
 import Button from "../../components/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Tab() {
   const [text, settext] = useState("");
+  const isMounted = useRef(false);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => (isMounted.current = false);
+  }, []);
+
+  useEffect(() => {
+    async function d() {
+      // await AsyncStorage.removeItem("user");
+      const user = await AsyncStorage.getItem("user");
+
+      console.log(user);
+      const doesUserExist = JSON.parse(user);
+
+      if (!doesUserExist.email && isMounted.current) {
+        return router.push("/Onboarding");
+      }
+    }
+    d();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>

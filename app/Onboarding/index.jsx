@@ -15,7 +15,7 @@ export default index;
 const styles = StyleSheet.create({
   container: {
     paddingTop: StatusBar.currentHeight,
-    backgroundColor: "white",
+    // backgroundColor: "red",
     flex: 1,
   },
 });

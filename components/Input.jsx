@@ -2,12 +2,18 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import React, { useState } from "react";
 import CheckBox, { CheckBoxComponent } from "@react-native-community/checkbox";
 
-const Input = ({ text, placeholder }) => {
+const Input = ({ text, placeholder, onchangetext, value, name }) => {
   const [isSelected, setSelection] = useState(false);
+
   return (
     <View style={{ marginBottom: 25 }}>
       <Text style={styles.text}>{text}</Text>
-      <TextInput placeholder={placeholder} style={styles.Inputbox} />
+      <TextInput
+        onChangeText={(text) => onchangetext(name, text)}
+        placeholder={placeholder}
+        value={value}
+        style={styles.Inputbox}
+      />
     </View>
   );
 };

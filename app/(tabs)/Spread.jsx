@@ -4,7 +4,7 @@ import React from "react";
 const Tab = () => {
   return (
     <View>
-      <Text>Tab</Text>
+      <Text>Coming Soon..</Text>
     </View>
   );
 };
