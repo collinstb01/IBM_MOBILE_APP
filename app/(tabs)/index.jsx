@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Tab() {
   const [text, settext] = useState("");
+  const [user, setUser] = useState(undefined);
   const isMounted = useRef(false);
 
   useEffect(() => {
@@ -25,19 +26,14 @@ export default function Tab() {
   }, []);
 
   useEffect(() => {
-    async function d() {
-      // await AsyncStorage.removeItem("user");
+    async function initialize() {
       const user = await AsyncStorage.getItem("user");
-
-      console.log(user);
-      const doesUserExist = JSON.parse(user);
-
-      if (!doesUserExist.email && isMounted.current) {
-        return router.push("/Onboarding");
-      }
+      if (!user && isMounted.current) return router.push("/Onboarding");
+      const parseuser = JSON.parse(user);
+      setUser(parseuser);
     }
-    d();
-  }, []);
+    initialize();
+  }, [isMounted]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -76,7 +72,13 @@ export default function Tab() {
               alignItems: "center",
             }}
           >
-            <Text style={styles.balance}> N1,500,925.56</Text>
+            <View style={{ marginTop: 20, marginBottom: 20 }}>
+              <Text style={styles.balance}> N1,500,925.56</Text>
+              <Text style={{}}>
+                {user?.walletAddress.slice(0, 5)}...
+                {user?.walletAddress.slice(31)}
+              </Text>
+            </View>
             <Entypo name="dots-three-horizontal" size={24} color="black" />
           </View>
           <Button text={"+    Add wallet"} />
@@ -103,12 +105,9 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   balance: {
-    marginTop: 20,
-    marginBottom: 20,
     fontSize: 25,
     fontWeight: "900",
   },
-
   containertwo: {
     paddingLeft: 17,
     paddingRight: 17,

@@ -1,3 +1,4 @@
+import "@ethersproject/shims";
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Input from "../components/Input";
@@ -7,7 +8,6 @@ import { createPost } from "../sanity";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ethers } from "ethers";
 import CryptoJS from "react-native-crypto-js";
-import "@ethersproject/shims";
 
 const SignupTwoScreen = () => {
   const [activeScreen, setActiveScreen] = useState(0);
@@ -27,6 +27,8 @@ const SignupTwoScreen = () => {
 
   const handlesignup = async () => {
     // Your signup logic here
+    setloading(true);
+
     if (activeScreen == 0) {
       if (
         !user.firstName ||
@@ -70,9 +72,7 @@ const SignupTwoScreen = () => {
     }
 
     try {
-      setloading(true);
-      const walletData = ethers.Wallet.createRandom();
-
+      const walletData = new ethers.Wallet.createRandom();
       // create details
       let phrase = walletData.mnemonic.phrase;
       let privateKey = walletData.privateKey;
@@ -81,12 +81,12 @@ const SignupTwoScreen = () => {
       // encrypt phrase
       const encryptedPhrase = CryptoJS.AES.encrypt(
         phrase,
-        encryptionKey
+        "thisiskey"
       ).toString();
 
       const encryptPassword = CryptoJS.AES.encrypt(
         phrase,
-        encryptionKey
+        "thisiskey"
       ).toString();
 
       let newUser = {
@@ -99,10 +99,8 @@ const SignupTwoScreen = () => {
       await AsyncStorage.setItem("user", JSON.stringify(newUser));
 
       await createPost({ ...user, email: email, password: encryptPassword });
-      await AsyncStorage.setItem("user", email);
-
       setloading(false);
-      return router.push("/");
+      return router.replace("/");
     } catch (error) {
       console.log(error);
       setloading(false);

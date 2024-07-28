@@ -1,4 +1,5 @@
 import {
+  BackHandler,
   Dimensions,
   Image,
   Pressable,
@@ -7,7 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import Button2 from "../components/Button2";
 import { router } from "expo-router";
@@ -29,6 +30,27 @@ const Onboarding = () => {
     setActiveScreen((e) => e + 1);
     // Your login logic goes here
   };
+
+  useEffect(() => {
+    const onBackPress = () => {
+      if (activeScreen == 0) {
+        BackHandler.exitApp();
+      } else {
+        setActiveScreen((e) => e - 1);
+      }
+
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      onBackPress
+    );
+
+    return () => backHandler.remove();
+  }, [activeScreen]);
+
+  console.log(activeScreen);
 
   const arraydata = [
     {
@@ -58,8 +80,8 @@ const Onboarding = () => {
         </View>
         <View style={{ justifyContent: "center", alignItems: "center" }}>
           <Text style={styles.title1}>Build your</Text>
-          <Text style={styles.title2}>{arraydata[activeScreen].text2}</Text>
-          <Text style={styles.desc}>{arraydata[activeScreen].desc}</Text>
+          <Text style={styles.title2}>{arraydata[activeScreen]?.text2}</Text>
+          <Text style={styles.desc}>{arraydata[activeScreen]?.desc}</Text>
         </View>
         <View style={styles.activeboxes}>
           <Pressable onPress={() => setActiveScreen(0)}>
